@@ -7,3 +7,4 @@ class CursoFormulario(forms.Form):
 
 class BusquedaCamadaFormulario(forms.Form):
     camada = forms.IntegerField()
+

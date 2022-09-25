@@ -1,10 +1,50 @@
 import datetime
 
+import django.db.utils
+from django.contrib import messages
 from django.shortcuts import render, redirect
 
 from AppCoder.forms import CursoFormulario, BusquedaCamadaFormulario
 from AppCoder.models import Curso, Entregable
 
+def editar_curso(request, camada):
+    curso_editar = Curso.objects.get(camada=camada)
+
+    if request.method == 'POST':
+
+        mi_formulario = CursoFormulario(request.POST)
+
+        if mi_formulario.is_valid():
+
+            data = mi_formulario.cleaned_data
+
+            curso_editar.nombre = data.get('nombre')
+            curso_editar.camada = data.get('camada')
+            try:
+                curso_editar.save()
+            except django.db.utils.IntegrityError:
+                messages.error(request, "la modificacion fallo por que la camada esta repetida")
+
+            return redirect('AppCoderCurso')
+
+    contexto = {
+        'form': CursoFormulario(
+            initial={
+                "nombre": curso_editar.nombre,
+                "camada" : curso_editar.camada
+            }
+        )
+    }
+    return render(request, 'AppCoder/curso_formulario.html', contexto)
+
+
+def eliminar_curso(request, camada):
+    curso_eliminar = Curso.objects.get(camada=camada)
+    curso_eliminar.delete()
+
+    messages.info(request, f"El curso {curso_eliminar} fue eliminado")
+
+    return redirect("AppCoderCurso")
 
 def busqueda_camada_post(request):
 
@@ -40,13 +80,12 @@ def curso_formulario(request):
             curso1 = Curso(nombre=data.get('nombre'), camada=data.get('camada'))
             curso1.save()
 
-            return redirect('AppCoderCursoFormulario')
+            return redirect('AppCoderCurso')
 
-    cursos = Curso.objects.all()
+
 
     contexto = {
-        'form': CursoFormulario(),
-        'cursos' : cursos
+        'form': CursoFormulario()
     }
 
     return render(request, 'AppCoder/curso_formulario.html', contexto)
@@ -58,11 +97,11 @@ def inicio(request):
     return render(request, 'index.html', contexto)
 
 def curso(request):
-    curso1 = Curso(nombre="Python", camada=31095)
-    curso1.save()
+    cursos = Curso.objects.all()
     contexto = {
-        'curso': curso1
+        'cursos' : cursos
     }
+
 
     return render(request, 'AppCoder/curso.html', contexto)
 
