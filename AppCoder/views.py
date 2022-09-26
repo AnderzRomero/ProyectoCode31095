@@ -3,7 +3,8 @@ import datetime
 import django.db.utils
 from django.contrib import messages
 from django.shortcuts import render, redirect
-
+import django
+from django.views.generic import ListView
 from AppCoder.forms import CursoFormulario, BusquedaCamadaFormulario
 from AppCoder.models import Curso, Entregable
 
@@ -96,14 +97,20 @@ def inicio(request):
     }
     return render(request, 'index.html', contexto)
 
-def curso(request):
-    cursos = Curso.objects.all()
-    contexto = {
-        'cursos' : cursos
-    }
+class CursoList(ListView):
+    model = Curso
+    template_name = 'AppCoder/curso.html'
 
 
-    return render(request, 'AppCoder/curso.html', contexto)
+
+# def curso(request):
+#     cursos = Curso.objects.all()
+#     contexto = {
+#         'object_list' : cursos
+#     }
+#
+#
+#     return render(request, 'AppCoder/curso.html', contexto)
 
 def entregable(request):
     entregables = [
