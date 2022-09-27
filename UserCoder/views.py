@@ -1,7 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.shortcuts import render, redirect
+
+from UserCoder.forms import UserRegisterForm
 
 
 def login_request(request):
@@ -33,6 +35,31 @@ def login_request(request):
 
     contexto = {
         'form': AuthenticationForm(),
-        'name_submit': 'Login'
+        'name_submit': 'Login',
+        'nombre_form': 'Login'
     }
+    return render(request, 'UserCoder/login.html', contexto)
+
+
+def register(request):
+    if request.method == 'POST':
+
+        # form = UserCreationForm(request.POST)
+        form = UserRegisterForm(request.POST)
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.info(request, 'Tu usuario fue resgristrado satisfactoriamente!')
+        else:
+            messages.info(request, 'Tu usuario no pudo ser registrado!')
+        return redirect('AppCoderInicio')
+
+    contexto = {
+        # 'form': UserCreationForm(),
+        'form': UserRegisterForm(),
+        'nombre_form': 'Registro'
+    }
+
     return render(request, 'UserCoder/login.html', contexto)
