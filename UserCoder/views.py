@@ -35,10 +35,10 @@ def login_request(request):
 
     contexto = {
         'form': AuthenticationForm(),
-        'name_submit': 'Login',
-        'nombre_form': 'Login'
+        'titulo_form': 'Login',
+        'boton_envio': 'Enviar'
     }
-    return render(request, 'UserCoder/login.html', contexto)
+    return render(request, 'base_formulario.html', contexto)
 
 
 def register(request):
@@ -62,4 +62,4 @@ def register(request):
         'nombre_form': 'Registro'
     }
 
-    return render(request, 'UserCoder/login.html', contexto)
+    return render(request, 'base_formulario.html', contexto)

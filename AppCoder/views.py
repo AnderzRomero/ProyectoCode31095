@@ -36,9 +36,11 @@ def editar_curso(request, camada):
                 "nombre": curso_editar.nombre,
                 "camada" : curso_editar.camada
             }
-        )
+        ),
+        'titulo_form': 'Curso a Editar',
+        'boton_envio': 'Editar'
     }
-    return render(request, 'AppCoder/curso_formulario.html', contexto)
+    return render(request, 'base_formulario.html', contexto)
 
 
 def eliminar_curso(request, camada):
@@ -65,6 +67,8 @@ def busqueda_camada(request):
 
     contexto = {
         'form': BusquedaCamadaFormulario(),
+        'titulo_form': 'Buscar Curso',
+        'boton_envio': 'Buscar'
     }
 
     return render(request, 'AppCoder/busqueda_camada.html', contexto)
@@ -88,10 +92,12 @@ def curso_formulario(request):
 
 
     contexto = {
-        'form': CursoFormulario()
+        'form': CursoFormulario(),
+        'titulo_form': 'Cursos Formulario',
+        'boton_envio': 'Crear'
     }
 
-    return render(request, 'AppCoder/curso_formulario.html', contexto)
+    return render(request, 'base_formulario.html', contexto)
 
 def inicio(request):
     contexto = {
