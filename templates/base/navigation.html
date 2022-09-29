@@ -1,9 +1,17 @@
 <nav class="navbar navbar-light bg-light static-top">
-            <div class="container">
+    <div class="container">
 
-                <a class="navbar-brand" href="{% url 'AppCoderInicio' %}">Inicio</a>
-                <a class="navbar-brand" href="{% url 'AppCoderCurso' %}">Curso</a>
-                <a class="navbar-brand" href="{% url 'AppCoderEntregable' %}">Entregable</a>
-                <a class="btn btn-primary" href="#signup">Sign Up</a>
-            </div>
-        </nav>
+        <a class="navbar-brand" href="{% url 'AppCoderInicio' %}">Inicio</a>
+        <a class="navbar-brand" href="{% url 'AppCoderCurso' %}">Curso</a>
+        <a class="navbar-brand" href="{% url 'AppCoderEntregable' %}">Entregable</a>
+        {% if user.is_authenticated %}
+            <h5>User:{{ user.get_username }}</h5>
+            <a class="btn btn-primary" href="{% url 'UserCoderLogout' %}">Logout</a>
+        {% else %}
+            <a class="btn btn-primary" href="{% url 'UserCoderLogin' %}">Login</a>
+            <a class="btn btn-primary" href="{% url 'UserCoderRegister' %}">Registro</a>
+        {% endif %}
+
+
+    </div>
+</nav>
