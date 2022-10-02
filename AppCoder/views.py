@@ -105,20 +105,22 @@ def inicio(request):
     }
     return render(request, 'index.html', contexto)
 
-class CursoList(LoginRequiredMixin, ListView):
-    model = Curso
-    template_name = 'AppCoder/curso.html'
+# class CursoList(LoginRequiredMixin, ListView):
+#     model = Curso
+#     template_name = 'AppCoder/curso.html'
 
 
 
-# def curso(request):
-#     cursos = Curso.objects.all()
-#     contexto = {
-#         'object_list' : cursos
-#     }
-#
-#
-#     return render(request, 'AppCoder/curso.html', contexto)
+def curso(request):
+    cursos = Curso.objects.all()
+    entregables = Entregable.objects.all()
+    contexto = {
+        'object_list': cursos,
+        'entregables': entregables
+    }
+
+
+    return render(request, 'AppCoder/curso.html', contexto)
 
 @login_required
 def entregable(request):
