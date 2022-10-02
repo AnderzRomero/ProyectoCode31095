@@ -20,14 +20,14 @@ def upload_avatar(request):
             data = formulario.cleaned_data
             avatar = Avatar.objects.filter(user=data.get("usuario"))
 
-        if len(avatar) > 0:
-            avatar = avatar[0]
-            avatar.imagen = formulario.cleaned_data["imagen"]
-            avatar.save()
+            if len(avatar) > 0:
+                 avatar = avatar[0]
+                 avatar.imagen = formulario.changed_data["imagen"]
+                 avatar.save()
 
-        else:
-            avatar = Avatar(user=data.get("user"), imagen=data.get("imagen"))
-            avatar.save()
+            else:
+                 avatar = Avatar(user=data.get("user"), imagen=data.get("imagen"))
+                 avatar.save()
 
         return redirect("AppCoderInicio")
 
